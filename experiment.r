@@ -15,3 +15,12 @@ OT_LE <- LE[LE$technique == "OT",] # missing sub. 36?
 NT_ME <- ME[ME$technique == "NT",]
 OT_ME <- ME[ME$technique == "OT",]
 
+# plotting both ME and LE
+tp <- indata$tp 
+hist(tp)
+
+# Plotting hist ME
+hist(ME$tp)
+
+# Plotting hist LE
+hist(LE$tp)
