@@ -20,13 +20,16 @@ tp <- indata$tp
 hist(tp)
 print("Data for tp")
 print(summary(tp))
+print(var(tp))
 
 # Plotting hist ME
 hist(ME$tp)
 print("Data for ME")
 print(summary(ME$tp))
+print(var(ME$tp))
 
 # Plotting hist LE
 hist(LE$tp)
 print("Data for LE")
 print(summary(LE$tp))
+print(var(LE$tp))
