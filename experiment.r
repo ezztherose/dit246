@@ -18,9 +18,15 @@ OT_ME <- ME[ME$technique == "OT",]
 # plotting both ME and LE
 tp <- indata$tp 
 hist(tp)
+print("Data for tp")
+print(summary(tp))
 
 # Plotting hist ME
 hist(ME$tp)
+print("Data for ME")
+print(summary(ME$tp))
 
 # Plotting hist LE
 hist(LE$tp)
+print("Data for LE")
+print(summary(LE$tp))
