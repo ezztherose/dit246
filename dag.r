@@ -9,5 +9,21 @@ DAG <- dagitty::dagitty("DAG {
     Y [outcome]
     }"
 )
+
 tidy_dag <- tidy_dagitty(DAG)
 tidy_dag
+
+# Working DAG
+DAG2 <- dagify(
+    y ~ x + z,
+    x ~ y,
+    z ~ x,
+    exposure = "x",
+    outcome = "y"
+)
+
+
+out <- ggdag(DAG2) + theme_dag()
+print(out)
+
+# The dag is a fork.
