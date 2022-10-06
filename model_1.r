@@ -35,7 +35,7 @@ p <- exp(prior$a + prior$b)
 dens(p, adj = 0.1)
 
 sims <- sim(model_1, post = prior)
-print(sims)
+
 #sim(model_1, data = indata, 1000, prior)
 
 # priors for a
@@ -46,4 +46,7 @@ p_a <- exp(prior$a)
 p_b <- exp(prior$b)
 #dens(p_b, adj = 0.1)
 
-# model 2
+
+print(sims)
+
+

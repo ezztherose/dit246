@@ -27,3 +27,7 @@ out <- ggdag(DAG2) + theme_dag()
 print(out)
 
 # The dag is a fork.
+
+test <- ggdag::dagify(t ~ c, tp ~ c, tp ~t)
+out <- ggdag::ggdag(test)+theme_dag()
+print(out)
