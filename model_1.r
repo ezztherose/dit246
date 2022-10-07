@@ -16,6 +16,8 @@ inv_list <- list(
     t_num = ifelse(indata$technique == "NT", 1L, 2L)
 )
 
+num_test <- 6
+
 model_1 <- ulam(
     alist(
         tp ~ dgampois(lambda, phi),
@@ -23,7 +25,7 @@ model_1 <- ulam(
         alpha[t_num] ~ dnorm(0,1),
         beta[c_num] ~ dnorm(1, 0.5),
         phi ~ dexp(1)
-    ), data=inv_list , chains=4  , cmdstan=TRUE,
+    ), data=inv_list, chains = 4, log_lik = TRUE, cmdstan = TRUE
 )
 
 # sanity check
@@ -35,27 +37,26 @@ p <- exp(prior$a + prior$b)
 #dens(p, adj = 0.1)
 
 # null hypothesis
-null_hyp <- ulam(
+null_hyp <- quap(
     alist(
         tp ~ dgampois(lambda, phi),
         log(lambda) <- alpha,
         alpha ~ dnorm(5, 2),
         phi ~ dexp(1)
-    ), data=inv_list, chains = 4, log_lik = TRUE
+    ), data=list(tp=num_test)
 )
 prior_null <- extract.prior(null_hyp)
 p_null <- exp(prior_null$alpha)
 #dens(p_null, adj = 0.1)
 
 # likelihood for p
-s=mean(p_null)
-r=1/mean(1/p_null)
-b=function(b) {
-  K=1/mean(1/(b + p_null))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like_null <- sqrt(s/b_mle + b_mle/r -2)
+#s=mean(p_null)
+#r=1/mean(1/p_null)
+#b=function(b) {
+#  K=1/mean(1/(b + p_null))
+#}
+#b_mle=optim(1, b, method="SANN")$par
+#like_null <- sqrt(s/b_mle + b_mle/r -2)
 
 
 
@@ -82,13 +83,13 @@ if(mean(p) == mean(p_null))
 }
 
 # likelihood for p
-s=mean(p)
-r=1/mean(1/p)
-b=function(b) {
-  K=1/mean(1/(b + p))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like <- sqrt(s/b_mle + b_mle/r -2)
-print(like)
-print(like_null)
+#s=mean(p)
+#r=1/mean(1/p)
+#b=function(b) {
+#  K=1/mean(1/(b + p))
+#  return((b^2 - b*(2*r+K) + r*(s+K))^2)
+#}
+#b_mle=optim(1, b, method="SANN")$par
+#like <- sqrt(s/b_mle + b_mle/r -2)
+#print(like)
+#print(like_null)

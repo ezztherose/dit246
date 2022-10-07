@@ -38,7 +38,7 @@ model_1 <- ulam(
         alpha[t_num] ~ dnorm(0.5,1),
         beta[c_num] ~ dnorm(1, 0.2),
         phi ~ dexp(1)
-    ), data=inv_list , chains=4, log_lik = TRUE, cmdstan=TRUE,
+    ), data=list(tp=6) , chains=4, log_lik = TRUE, cmdstan=TRUE,
 )
 
 # sanity check
@@ -107,3 +107,11 @@ print(like3)
 # compare
 compare(model_1, m3)
 plot(compare(model_1, m3))
+
+# Dumpig in some code from the main.r file
+
+#trace(plot(model_1, depth=2))
+
+#hist(sim(null_hyp), col = "green", xlim = c(0,20))
+#hist(sim(model_1), col = "blue", xlim = c(0,20))
+hist(sim(m2), col = "red", xlim = c(0,20))

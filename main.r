@@ -44,17 +44,7 @@ p <- exp(prior$a + prior$b)
 dens(p, adj = 0.1)
 sims_p <- sim(model_1, post = prior)
 sims_f <- sim(model_1, data = list(t_num = c(1,1), c_num=c(1,2)))
-
-# likelihood for p
-s=mean(p)
-r=1/mean(1/p)
-b=function(b) {
-  K=1/mean(1/(b + p))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like <- sqrt(s/b_mle + b_mle/r -2)
-print(like)
+#sims_f <- sim(model_1, data = list(t_num=2, c_num=2)) # for testing different likelihoods
 
 # model 2
 m2 <- ulam(
@@ -89,53 +79,11 @@ p3 <- exp(prior3$a)
 dens(p, adj = 0.1)
 sims3 <- sim(m3, data = list(t_num = c(1,1), c_num=c(1,2)))
 
-# ********* calculatin likelihoods **************''
-# null
-s=mean(p_null)
-r=1/mean(1/p_null)
-b=function(b) {
-  K=1/mean(1/(b + p_null))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like_null <- sqrt(s/b_mle + b_mle/r -2)
+print("summary")
+print(summary(inv_list$c_num))
+print("summary data")
+print(summary(inv_list$t_num))
 
-# likelihood for p
-s=mean(p)
-r=1/mean(1/p)
-b=function(b) {
-  K=1/mean(1/(b + p))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like <- sqrt(s/b_mle + b_mle/r -2)
-
-# model 2
-s=mean(p_2)
-r=1/mean(1/p_2)
-b=function(b) {
-  K=1/mean(1/(b + p_2))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like2 <- sqrt(s/b_mle + b_mle/r -2)
-
-# likelihood for p3
-s=mean(p3)
-r=1/mean(1/p3)
-b=function(b) {
-  K=1/mean(1/(b + p3))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="SANN")$par
-like3 <- sqrt(s/b_mle + b_mle/r -2)
-
-
-# ************* Plotting Likelihood *****************
-print(like_null)
-print(like)
-print(like2)
-print(like3)
 
 # ******** MODEL COMPARE **********
 # WAIC
@@ -165,3 +113,9 @@ print("R hat model 3")
 print(Rhat(sims = sims3))
 print(ess_bulk(sims3))
 print(ess_tail(sims3))
+
+# ***** MORE PLOTTING DATA ****
+print(precis(null_hyp, depth=2))
+print(precis(model_1, depth=2))
+print(precis(m2, depth=2))
+print(precis(m3, depth=2))
