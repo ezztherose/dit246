@@ -27,3 +27,8 @@ prior <- extract.prior(m3)
 p <- exp(prior$a)
 dens(p, adj = 0.1)
 sims3 <- sim(m3, post = prior)
+
+print(sims3)
+hist(sims3)
+print("Summary for both a & b:")
+print(summary(sims3))
