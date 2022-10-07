@@ -25,3 +25,8 @@ prior_m4 <- extract.prior(m4)
 p_4 <- exp(prior_m4$a)
 dens(p_4, adj = 0.1)
 sims4 <- sim(m4, post = prior_m4)
+
+print(sims4)
+hist(sims4)
+print("Summary for both a & b:")
+print(summary(sims4))
