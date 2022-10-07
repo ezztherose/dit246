@@ -81,3 +81,25 @@ print("summary model 1:")
 print(summary(sims_f))
 print("summary model 3:")
 print(summary(sims3))
+
+# likelihood for p
+s=mean(p)
+r=1/mean(1/p)
+b=function(b) {
+  K=1/mean(1/(b + p))
+  return((b^2 - b*(2*r+K) + r*(s+K))^2)
+}
+b_mle=optim(1, b, method="BFGS")$par
+like <- sqrt(s/b_mle + b_mle/r -2)
+print(like)
+
+# likelihood for p3
+s=mean(p3)
+r=1/mean(1/p3)
+b=function(b) {
+  K=1/mean(1/(b + p3))
+  return((b^2 - b*(2*r+K) + r*(s+K))^2)
+}
+b_mle=optim(1, b, method="BFGS")$par
+like3 <- sqrt(s/b_mle + b_mle/r -2)
+print(like3)

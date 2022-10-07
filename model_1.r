@@ -66,17 +66,6 @@ if(mean(p) == mean(p_null))
    print("Null hypotesis REJECTED")
 }
 
-# likelihood for p_null
-s=mean(p_null)
-r=1/mean(1/p_null)
-b=function(b) {
-  K=1/mean(1/(b + p_null))
-  return((b^2 - b*(2*r+K) + r*(s+K))^2)
-}
-b_mle=optim(1, b, method="BFGS")$par
-like_null <- sqrt(s/b_mle + b_mle/r -2)
-print(like_null)
-
 # likelihood for p
 s=mean(p)
 r=1/mean(1/p)
