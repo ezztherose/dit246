@@ -47,6 +47,18 @@ prior_null <- extract.prior(null_hyp)
 p_null <- exp(prior_null$alpha)
 #dens(p_null, adj = 0.1)
 
+# likelihood for p
+s=mean(p_null)
+r=1/mean(1/p_null)
+b=function(b) {
+  K=1/mean(1/(b + p_null))
+  return((b^2 - b*(2*r+K) + r*(s+K))^2)
+}
+b_mle=optim(1, b, method="SANN")$par
+like_null <- sqrt(s/b_mle + b_mle/r -2)
+
+
+
 #sims <- sim(model_1, post = prior)
 
 #sims <- sim(model_1, post = prior)
@@ -79,3 +91,4 @@ b=function(b) {
 b_mle=optim(1, b, method="SANN")$par
 like <- sqrt(s/b_mle + b_mle/r -2)
 print(like)
+print(like_null)

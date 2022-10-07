@@ -38,7 +38,7 @@ model_1 <- ulam(
         alpha[t_num] ~ dnorm(0.5,1),
         beta[c_num] ~ dnorm(1, 0.2),
         phi ~ dexp(1)
-    ), data=inv_list , chains=4  , cmdstan=TRUE,
+    ), data=inv_list , chains=4, log_lik = TRUE, cmdstan=TRUE,
 )
 
 # sanity check
@@ -65,7 +65,7 @@ m3 <- ulam(
         c(t_num, c_num) ~ dnorm(0, 0.5),
         c(t_num, c_num) ~ dnorm(0, 0.25),
         phi ~ dexp(1)
-    ), data=inv_list, chains=4  , cmdstan=TRUE,
+    ), data=inv_list, chains=4, log_lik = TRUE, cmdstan=TRUE,
 )
 
 prior3 <- extract.prior(m3)
@@ -103,3 +103,7 @@ b=function(b) {
 b_mle=optim(1, b, method="SANN")$par
 like3 <- sqrt(s/b_mle + b_mle/r -2)
 print(like3)
+
+# compare
+compare(model_1, m3)
+plot(compare(model_1, m3))
