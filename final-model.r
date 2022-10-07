@@ -114,4 +114,14 @@ plot(compare(model_1, m3))
 
 #hist(sim(null_hyp), col = "green", xlim = c(0,20))
 #hist(sim(model_1), col = "blue", xlim = c(0,20))
-hist(sim(m2), col = "red", xlim = c(0,20))
+hist(sim(model_1), xlim = c(0,20))
+
+#hist(sim(null_hyp), col = "green", xlim = c(0,20))
+#hist(sim(model_1), col = "blue", xlim = c(0,20))
+#hist(sim(m2), col = "red", xlim = c(0,20))
+
+post <- extract.samples(model_1)
+diffTech <- post$alpha[,2] - post$alpha[,1]
+diffCat <- post$beta[,2] - post$beta[,1]
+print(precis(list(diffTech=diffTech)))
+print(precis(list(diffCat=diffCat)))

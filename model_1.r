@@ -37,7 +37,7 @@ p <- exp(prior$a + prior$b)
 #dens(p, adj = 0.1)
 
 # null hypothesis
-null_hyp <- quap(
+null_hyp <- ulam(
     alist(
         tp ~ dgampois(lambda, phi),
         log(lambda) <- alpha,
@@ -75,12 +75,14 @@ plot(sim(model_1))
 print("null")
 print(summary(p_null))
 
-if(mean(p) == mean(p_null))
-{
-    print("Null hypothesis NOT rejected")
-} else {
-   print("Null hypotesis REJECTED")
-}
+
+
+#if(mean(p) == mean(p_null))
+#{
+#    print("Null hypothesis NOT rejected")
+#} else {
+#   print("Null hypotesis REJECTED")
+#}
 
 # likelihood for p
 #s=mean(p)
@@ -93,3 +95,9 @@ if(mean(p) == mean(p_null))
 #like <- sqrt(s/b_mle + b_mle/r -2)
 #print(like)
 #print(like_null)
+
+post <- extract.samples(model_1)
+diffTech <- post$alpha[,2] - post$alpha[,1]
+diffCat <- post$beta[,2] - post$beta[,1]
+print(precis(list(diffTech=diffTech)))
+print(precis(list(diffCat=diffCat)))
