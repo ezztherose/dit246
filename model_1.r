@@ -34,25 +34,29 @@ prior <- extract.prior(model_1)
 p <- exp(prior$a + prior$b)
 dens(p, adj = 0.1)
 
+# likelihood
+# null hypothesis
+null_hyp <- ulam(
+    alist(
+        tp ~ dgampois(lambda, phi),
+        log(lambda) <- alpha,
+        alpha ~ dnorm(0.5, 0.2),
+        phi ~ dexp(1)
+    ), data=inv_list, chains = 4, log_lik = TRUE
+)
+prior_null <- extract.prior(null_hyp)
+p_null <- exp(prior_null$a)
+dens(p_null, adj = 0.1)
+
 #sims <- sim(model_1, post = prior)
 
 #sims <- sim(model_1, post = prior)
 sims <- sim(model_1, post = prior)
 print(sims)
 hist(sims)
-print("Summary for both a & b:")
-print(summary(sims))
+print("Summary:")
+print(summary(p))
 
-# priors for a
-p_a <- exp(prior$a)
-dens(p_a, adj = 0.1)
-#sims_a <- sim(model_1, data = list(t_num = 1, c_num=2))
-#print("Summary for a:")
-#print(summary(sims_a))
+print("null")
+print(summary(p_null))
 
-# priors for b
-p_b <- exp(prior$b)
-dens(p_b, adj = 0.1)
-#sims_b <- sim(model_1, data = list(t_num = 1, c_num=2))
-#print("Summary for b:")
-#print(summary(sims_b))

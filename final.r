@@ -16,6 +16,21 @@ inv_list <- list(
     t_num = ifelse(indata$technique == "NT", 1L, 2L)
 )
 
+# null hypothesis
+null_hyp <- ulam(
+    alist(
+        tp ~ dgampois(lambda, phi),
+        log(lambda) <- alpha,
+        alpha ~ dnorm(0.5, 0.2),
+        phi ~ dexp(1)
+    ), data=inv_list, chains = 4, log_lik = TRUE
+)
+prior_null <- extract.prior(null_hyp)
+p_null <- exp(prior_null$a)
+dens(p_null, adj = 0.1)
+
+
+# model 1
 model_1 <- ulam(
     alist(
         tp ~ dgampois(lambda, phi),
@@ -61,7 +76,8 @@ sims3 <- sim(m3, data = list(t_num = 1, c_num = 2))
 #hist(sims3)
 
 # printing results
-print("Summary Model 1:")
+print(summary(p_null))
+print("summary model 1:")
 print(summary(sims_f))
-print("Summary Model 3:")
+print("summary model 3:")
 print(summary(sims3))

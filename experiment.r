@@ -65,14 +65,6 @@ fucking_list <- list(
 )
 
 
-model1 <- ulam(
-    alist(
-
-    )
-)
-
-
-
 # sequense 
 x <- seq(-1,1,length=length(norm_tp)) 
 plot(x, norm_tp, type = "l", lwd = 2, axes = FALSE, xlab = "", ylab = "")
