@@ -20,8 +20,8 @@ model_1 <- ulam(
     alist(
         tp ~ dgampois(lambda, phi),
         lambda <- alpha[t_num] + beta[c_num],
-        alpha[t_num] ~ dnorm(1,0.5),
-        beta[c_num] ~ dnorm(0, 0.5),
+        alpha[t_num] ~ dnorm(0,1),
+        beta[c_num] ~ dnorm(1, 0.5),
         phi ~ dexp(1)
     ), data=inv_list , chains=4  , cmdstan=TRUE,
 )
@@ -34,19 +34,25 @@ prior <- extract.prior(model_1)
 p <- exp(prior$a + prior$b)
 dens(p, adj = 0.1)
 
-sims <- sim(model_1, post = prior)
+#sims <- sim(model_1, post = prior)
 
-#sim(model_1, data = indata, 1000, prior)
+#sims <- sim(model_1, post = prior)
+sims <- sim(model_1, post = prior)
+print(sims)
+hist(sims)
+print("Summary for both a & b:")
+print(summary(sims))
 
 # priors for a
 p_a <- exp(prior$a)
-#dens(p_a, adj = 0.1)
+dens(p_a, adj = 0.1)
+#sims_a <- sim(model_1, data = list(t_num = 1, c_num=2))
+#print("Summary for a:")
+#print(summary(sims_a))
 
 # priors for b
 p_b <- exp(prior$b)
-#dens(p_b, adj = 0.1)
-
-
-print(sims)
-
-
+dens(p_b, adj = 0.1)
+#sims_b <- sim(model_1, data = list(t_num = 1, c_num=2))
+#print("Summary for b:")
+#print(summary(sims_b))
