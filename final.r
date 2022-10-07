@@ -36,21 +36,32 @@ dens(p, adj = 0.1)
 
 #sims <- sim(model_1, post = prior)
 sims_f <- sim(model_1, data = list(t_num = 1, c_num=2))
-print(sims_f)
-hist(sims_f)
-print("Summary for both a & b:")
+#print(sims_f)
+#hist(sims_f)
+print("Summary Model 1:")
 print(summary(sims_f))
 
-# priors for a
-p_a <- exp(prior$a)
-dens(p_a, adj = 0.1)
-sims_a <- sim(model_1, data = list(t_num = 1, c_num=2))
-#print("Summary for a:")
-#print(summary(sims_a))
+# model 3
+m3 <- ulam(
+    alist(
+        tp ~ dgampois(lambda, phi),
+        lambda <- a + t_num + c_num,
+        a ~dnorm(0, 0.5),
+        c(t_num, c_num) ~ dnorm(0, 0.5),
+        c(t_num, c_num) ~ dnorm(0, 0.25),
+        phi ~ dexp(1)
+    ), data=inv_list, chains=4  , cmdstan=TRUE,
+)
 
-# priors for b
-p_b <- exp(prior$b)
-dens(p_b, adj = 0.1)
-sims_b <- sim(model_1, data = list(t_num = 1, c_num=2))
-#print("Summary for b:")
-#print(summary(sims_b))
+prior3 <- extract.prior(m3)
+p3 <- exp(prior3$a)
+dens(p, adj = 0.1)
+sims3 <- sim(m3, data = list(t_num = 1, c_num = 2))
+#print(sims3)
+#hist(sims3)
+
+# printing results
+print("Summary Model 1:")
+print(summary(sims_f))
+print("Summary Model 3:")
+print(summary(sims3))
