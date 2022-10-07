@@ -32,21 +32,20 @@ model_1 <- ulam(
 # priors for all
 prior <- extract.prior(model_1)
 p <- exp(prior$a + prior$b)
-dens(p, adj = 0.1)
+#dens(p, adj = 0.1)
 
-# likelihood
 # null hypothesis
 null_hyp <- ulam(
     alist(
         tp ~ dgampois(lambda, phi),
         log(lambda) <- alpha,
-        alpha ~ dnorm(0.5, 0.2),
+        alpha ~ dnorm(5, 2),
         phi ~ dexp(1)
     ), data=inv_list, chains = 4, log_lik = TRUE
 )
 prior_null <- extract.prior(null_hyp)
-p_null <- exp(prior_null$a)
-dens(p_null, adj = 0.1)
+p_null <- exp(prior_null$alpha)
+#dens(p_null, adj = 0.1)
 
 #sims <- sim(model_1, post = prior)
 
@@ -60,3 +59,31 @@ print(summary(p))
 print("null")
 print(summary(p_null))
 
+if(mean(p) == mean(p_null))
+{
+    print("Null hypothesis NOT rejected")
+} else {
+   print("Null hypotesis REJECTED")
+}
+
+# likelihood for p_null
+s=mean(p_null)
+r=1/mean(1/p_null)
+b=function(b) {
+  K=1/mean(1/(b + p_null))
+  return((b^2 - b*(2*r+K) + r*(s+K))^2)
+}
+b_mle=optim(1, b, method="BFGS")$par
+like_null <- sqrt(s/b_mle + b_mle/r -2)
+print(like_null)
+
+# likelihood for p
+s=mean(p)
+r=1/mean(1/p)
+b=function(b) {
+  K=1/mean(1/(b + p))
+  return((b^2 - b*(2*r+K) + r*(s+K))^2)
+}
+b_mle=optim(1, b, method="BFGS")$par
+like <- sqrt(s/b_mle + b_mle/r -2)
+print(like)
