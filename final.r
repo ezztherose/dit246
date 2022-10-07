@@ -89,7 +89,7 @@ b=function(b) {
   K=1/mean(1/(b + p))
   return((b^2 - b*(2*r+K) + r*(s+K))^2)
 }
-b_mle=optim(1, b, method="BFGS")$par
+b_mle=optim(1, b, method="SANN")$par
 like <- sqrt(s/b_mle + b_mle/r -2)
 print(like)
 
@@ -100,6 +100,6 @@ b=function(b) {
   K=1/mean(1/(b + p3))
   return((b^2 - b*(2*r+K) + r*(s+K))^2)
 }
-b_mle=optim(1, b, method="BFGS")$par
+b_mle=optim(1, b, method="SANN")$par
 like3 <- sqrt(s/b_mle + b_mle/r -2)
 print(like3)

@@ -55,6 +55,9 @@ print(sims)
 hist(sims)
 print("Summary:")
 print(summary(p))
+print("mean for the model")
+print(mean(sim(model_1, post = prior)))
+plot(sim(model_1))
 
 print("null")
 print(summary(p_null))
@@ -73,6 +76,6 @@ b=function(b) {
   K=1/mean(1/(b + p))
   return((b^2 - b*(2*r+K) + r*(s+K))^2)
 }
-b_mle=optim(1, b, method="BFGS")$par
+b_mle=optim(1, b, method="SANN")$par
 like <- sqrt(s/b_mle + b_mle/r -2)
 print(like)

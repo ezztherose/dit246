@@ -32,6 +32,9 @@ print(sims3)
 hist(sims3)
 print("Summary for both a & b:")
 print(summary(sims3))
+print("mean for model")
+print(mean(sim(m3, post = prior)))
+plot(sim(m3))
 
 # likelihood for p
 s=mean(p)
@@ -40,6 +43,6 @@ b=function(b) {
   K=1/mean(1/(b + p))
   return((b^2 - b*(2*r+K) + r*(s+K))^2)
 }
-b_mle=optim(1, b, method="BFGS")$par
+b_mle=optim(1, b, method="SANN")$par
 like <- sqrt(s/b_mle + b_mle/r -2)
 print(like)
