@@ -120,10 +120,13 @@ print(precis(model_1, depth=2))
 print(precis(m2, depth=2))
 print(precis(m3, depth=2))
 
-post <- extract.samples(model_1)
-diffTech <- post$alpha[,2] - post$alpha[,1]
-diffCat <- post$beta[,2] - post$beta[,1]
-print(precis(list(diffTech=diffTech)))
-print(precis(list(diffCat=diffCat)))
+#post <- extract.samples(model_1)
+#diffTech <- post$alpha[,2] - post$alpha[,1]
+#diffCat <- post$beta[,2] - post$beta[,1]
+#print(precis(list(diffTech=diffTech)))
+#print(precis(list(diffCat=diffCat)))
 
-plot(hist(indata$tp, xlim = c(0,20)))
+#plot(hist(indata$tp, xlim = c(0,20)))
+
+# traceplot model 2
+#plot(traceplot(m2, true = NULL))
