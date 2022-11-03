@@ -31,3 +31,10 @@ hist(sims2)
 print("Summary:")
 print(summary(sims2))
 print(summary(p_2))
+
+# ***** DIFFERENCE MODEL 2 *****
+post2 <- extract.samples(m2)
+dft <- post2$bt[,2] - post2$bt[,1]
+dfc <- post2$bc[,2] - post2$bc[,1]
+print(precis(list(diffTech=dft)))
+print(precis(list(diffCat=dfc)))

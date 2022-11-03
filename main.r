@@ -120,11 +120,19 @@ print(precis(model_1, depth=2))
 print(precis(m2, depth=2))
 print(precis(m3, depth=2))
 
-#post <- extract.samples(model_1)
-#diffTech <- post$alpha[,2] - post$alpha[,1]
-#diffCat <- post$beta[,2] - post$beta[,1]
-#print(precis(list(diffTech=diffTech)))
-#print(precis(list(diffCat=diffCat)))
+# ***** DIFFERENCE MODEL 1 *****
+post <- extract.samples(model_1)
+diffTech <- post$alpha[,2] - post$alpha[,1]
+diffCat <- post$beta[,2] - post$beta[,1]
+print(precis(list(diffTech=diffTech)))
+print(precis(list(diffCat=diffCat)))
+
+# ***** DIFFERENCE MODEL 2 *****
+post2 <- extract.samples(m2)
+dft <- post2$bt[,2] - post2$bt[,1]
+dfc <- post2$bc[,2] - post2$bc[,1]
+print(precis(list(diffTech=dft)))
+print(precis(list(diffCat=dfc)))
 
 #plot(hist(indata$tp, xlim = c(0,20)))
 
